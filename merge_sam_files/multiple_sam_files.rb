@@ -62,16 +62,18 @@ def seq_new_num(filelist)
 				last_sequence_name = ""
 				initial_num += 1
 				f.each do |line|
+					line.chomp!
 					if line.chars.first == "@"
 					else
 						num = line.split("seq.")[1].to_i  
-						num_s = num
-						last_sequence_name = num_s if last_sequence_name == ""
-						if last_sequence_name != num_s
+						last_sequence_name = num if last_sequence_name == ""
+						if last_sequence_name != num
 							initial_num += 1
-							last_sequence_name = num_s
+							last_sequence_name = num
 						end
-						puts line.gsub(num_s.to_s, initial_num.to_s)
+						sam_fields = line.split("\t")
+						sam_fields[0] = sam_fields[0].gsub(num.to_s, initial_num.to_s)
+						puts sam_fields.join("\t")
 					end
 				end
 			end
